@@ -30,7 +30,10 @@ opciones_menu_actualizacion= ["1. Pedir prestado un ejemplar",
                             "3. Volver al menú principal",]
 # Inicializo variable selección que va a tener la elección del item del menu
 seleccion = 0
+# Inicializo variable ingresoTitulo para controlar si es el primer intento de consulta de un título
+ingresoTitulo = False   
 
+# Bucle principal del programa
 while True:
     # Mostramos las opciones del menu al usuario
     print("="*50)
@@ -40,13 +43,13 @@ while True:
         print(opcion)
     print("="*50)
     # Pedimos al usuario que seleccione una de las opciones
-    seleccion = int(input("Opción seleccionada: "))
+    seleccion = input("Opción seleccionada: ").strip()
     print("="*50+"\n")
     
     # Procesamos la posición con match/case
     match seleccion:
         # 1. Ingresar títulos
-        case 1:
+        case "1":
             nuevoTitulo = input("Ingrese el título que desea agregar a la lista: ").strip()
             # Valido si el nuevo título existe en la lista o esta vacio, considerando tambien el caso por si es mayusculas o minusculas
             while ((nuevoTitulo.lower() in [titulo.lower() for titulo in titulos]) or nuevoTitulo == ""):
@@ -59,7 +62,7 @@ while True:
             posicion = titulos.index(nuevoTitulo)
             ejemplares.insert(posicion, 0)
         # 2. Ingresar ejemplares
-        case 2:
+        case "2":
             # Si no hay títulos cargados no debe permitir agregar ejemplares
             if not titulos:
                 print("⚠️  No existen títulos en la lista. Para ingresar la cantidad de ejemplares primero debe ingresar títulos.\n")
@@ -71,7 +74,7 @@ while True:
             print("="*50+"\n")
             # Verifico que la posición indicada exista dentro de la lista de títulos
             while True:
-                posicion = input("\nSeleccione el índice del título que desea ingresar ejemplares: ")
+                posicion = input("\nSeleccione el índice del título que desea ingresar ejemplares: ").strip()
                 if not posicion.isdigit():
                     print("\n ⚠️  Ingrese una posición valida.")
                     continue
@@ -83,9 +86,9 @@ while True:
                 break
             # Verifico que la cantidad de ejemplares a ingresar sea valida
             while True:
-                cantidad = input("\nIngrese la cantidad de ejemplares que desea agregar: ")
+                cantidad = input("\nIngrese la cantidad de ejemplares que desea agregar: ").strip()
                 if not cantidad.isdigit():
-                    print("\n⚠️  Ingrese una cantidad valida (numero entero mayor a 0).")
+                    print("\n ⚠️  Ingrese una cantidad valida (numero entero mayor a 0).")
                     continue
                 # Despues de verificar que no hayan signos especiales transformo a entero
                 cantidad = int(cantidad)
@@ -98,7 +101,7 @@ while True:
             print(f"\n✅ Se agregaron un total de {ejemplares[posicion]} ejemplares al título {titulos[posicion]}. \n")
             
         # 3. Mostrar catálogo
-        case 3:
+        case "3":
             # Si no hay títulos cargados no hay nada que mostrar
             if not titulos:
                 print("⚠️  Todavía no existen títulos en la lista.\n")
@@ -108,12 +111,13 @@ while True:
                 print(f"{i+1}. {titulo} ({ejemplares[i]})")
             print("="*50+"\n")
         # 4. Consultar disponibilidad
-        case 4:
+        case "4":
             # Si no hay títulos cargados no debe permitir consultar disponibilidad
             if not titulos:
                 print("⚠️  Para poder consultar la disponibilidad de un libro deben existir títulos en la lista.\n")
                 continue
             titulo_consulta = input("Ingrese el nombre del título que desea consultar: ").strip()
+            ingresoTitulo = True
             # Verifico que el título que se intenta consultar exista, si es asi muestro la cantidad de ejemplares que tiene
             while True:
                 if (titulo_consulta.lower() in [titulo.lower() for titulo in titulos]):
@@ -121,15 +125,24 @@ while True:
                     print(f"\n✅ Existen {ejemplares[posicion]} ejemplares del título {titulo_consulta}.\n")
                     break
                 else:
-                    # Si no existe el título se puede decidir volver a consultar o volver al menu
-                    print(f"⚠️  El título ingresado: {titulo_consulta} no existe en el catálogo de libros.\n")
-                    print(f"Si desea consultar por otro título ingrese 'S', si desea volver al menu principal 'N'.")
-                    if input().lower() == "s":
-                        titulo_consulta = input("Ingrese el nombre del título que desea consultar: ").strip()
-                    else:
-                        break
+                    if ingresoTitulo == True:
+                        print(f"\n ⚠️  El título '{titulo_consulta}' no existe en la lista.\n")
+                    # Pregunto si desea consultar otro título o volver al menú principal 
+                    seleccion = input("Desea consultar por otro título? ('s' o 'n'): ").lower().strip() 
+                    match seleccion:
+                        case "s":
+                                titulo_consulta = input("Ingrese el nombre del título que desea consultar: ").strip()
+                                continue
+                        case "n":
+                            print("\nVolviendo al menú principal...\n")
+                            break
+                        # Opcion inválida
+                        case _:
+                            ingresoTitulo = False
+                            print("\n ⚠️  Opción inválida. Por favor elija una opcion correcta ('s' o 'n').\n")    
+                            continue       
         # 5. Listar agotados
-        case 5:
+        case "5":
             # Si no hay títulos cargados no hay nada que mostrar
             if not titulos:
                 print("⚠️  Todavía no existen títulos en la lista.\n")
@@ -153,7 +166,7 @@ while True:
                 print("⚠️  No existen títulos agotados en el catálogo.\n")
             
         # 6. Agregar título
-        case 6:
+        case "6":
             nuevoTitulo = input("Ingrese el título que desea agregar a la lista: ").strip()
             # Valido si el nuevo título existe en la lista o esta vacio, considerando tambien el caso por si es mayusculas o minusculas
             while ((nuevoTitulo.lower() in [titulo.lower() for titulo in titulos]) or nuevoTitulo == ""):
@@ -177,7 +190,7 @@ while True:
             ejemplares.append(cantidad)
             print(f"\n✅ Se agrego exitosamente el título {nuevoTitulo} al catálogo con {cantidad} ejemplares.\n")
         # 7. Actualizar ejemplares (préstamo/devolución)
-        case 7:
+        case "7":
             # Si no hay títulos cargados no debe permitir actualizar ejemplares
             if not titulos:
                 print(" ⚠️  No existen títulos en la lista. Para actualizar la cantidad de ejemplares primero debe ingresar títulos.\n")
@@ -210,9 +223,9 @@ while True:
                 for opcion in opciones_menu_actualizacion:
                     print(opcion)
                 print("="*50)
-                seleccion = int(input("Opción seleccionada: "))
+                seleccion = input("Opción seleccionada: ").strip()
                 match seleccion:
-                    case 1:
+                    case "1":
                         if ejemplares[posicion] > 0:
                             ejemplares[posicion] -= CANTIDAD
                             print(f"\n ✅ Se tomo prestado el título {titulos[posicion]} del catálogo, quedan {ejemplares[posicion]} ejemplares restantes.\n")
@@ -220,15 +233,23 @@ while True:
                         else:
                             print("\n ⚠️  No hay ejemplares disponibles para el título solicitado")
                             continue
-                    case 2:
+                    case "2":
                         # Aumento en 1 los ejemplares del título seleccionado y lo muestro en pantalla
                         ejemplares[posicion] += CANTIDAD
                         print(f"\n✅ Devolución exitosa del título {titulos[posicion]}.\n")
                         break
-                    case 3:
+                    case "3":
+                        print("Volviendo al menu principal...")
                         break
+                    # Opcion inválida
+                    case _:
+                        print("\n ⚠️  Opción inválida. Por favor, elija una opción del 1 al 3.")
         # 8. Salir
-        case 8:
-            print("Saliendo...")
+        case "8":
+            print("Saliendo del programa... ¡Hasta luego!")
             break
+        # Opcion inválida
+        case _:
+            print("⚠️  Opción inválida. Por favor, elija una opción del 1 al 8.\n")
+            continue
         
