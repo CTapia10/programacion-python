@@ -118,7 +118,7 @@ def programa_principal():
         if titulos:
             nombre_titulo = PedirNombre()
             if not ExisteTitulo(nombre_titulo):
-                print(f"\n ⚠️  El titulo {nombre_titulo} no se encuentra dentro del catalogo.\n")
+                print(f"\n ⚠️  El titulo {nombre_titulo} no se encuentra dentro del catalogo.")
             else:
                 for titulo in titulos:
                     if titulo["TITULO"] == nombre_titulo:
@@ -132,17 +132,19 @@ def programa_principal():
             
     # Defino metodo para agregar titulos al csv sin sobreescribir
     def AgregarNuevoTitulo():
-        nombre_titulo = PedirNombre()
         dir_archivo = DirArchivo()
-        if not ExisteTitulo(nombre_titulo):
-            cantidad = PedirCantidad()
-            with open(dir_archivo, "a", newline="", encoding="utf-8") as archivo:
-                filas = csv.DictWriter(archivo, fieldnames=["TITULO", "CANTIDAD"])
-                filas.writerow({"TITULO": nombre_titulo, "CANTIDAD": cantidad})
-            print(f"\n ✅ Titulo {nombre_titulo} agregado correctamente.")
-        else:
-            print(f"\n ⚠️  El titulo {nombre_titulo} ya se encuentra dentro del catalogo.\n")
-            
+        while True:
+            nombre_titulo = PedirNombre()
+            if not ExisteTitulo(nombre_titulo):
+                cantidad = PedirCantidad()
+                with open(dir_archivo, "a", newline="", encoding="utf-8") as archivo:
+                    filas = csv.DictWriter(archivo, fieldnames=["TITULO", "CANTIDAD"])
+                    filas.writerow({"TITULO": nombre_titulo, "CANTIDAD": cantidad})
+                print(f"\n ✅ Titulo {nombre_titulo} agregado correctamente.")
+                break
+            else:
+                print(f"\n ⚠️  El titulo {nombre_titulo} ya se encuentra dentro del catalogo.")
+                continue
     # Defino metodo para persistir los cambios en el archivo csv
     def GuardarProductos(filas_titulos):
         dir_archivo = DirArchivo()
@@ -168,12 +170,12 @@ def programa_principal():
                             GuardarProductos(titulos)
                             break
                         else:
-                            print("\n ✅ No se agrego ningun ejemplar.\n")
+                            print("\n ✅ No se agrego ningun ejemplar.")
                             break
             else:
-                print(f"\n ⚠️  El titulo '{nombre}' no se encuentra dentro del catalogo.\n")
+                print(f"\n ⚠️  El titulo '{nombre}' no se encuentra dentro del catalogo.")
         else:
-            print("\n ⚠️  No hay titulos disponibles dentro del catalogo.\n")
+            print("\n ⚠️  No hay titulos disponibles dentro del catalogo.")
             
     # Defino metodo para mostrar en pantalla los titulos sin ejemplares disponibles
     def MostrarAgotados():
@@ -186,9 +188,9 @@ def programa_principal():
                     print(f"{titulo["TITULO"]} | Agotado ⚠️")
                     agotados = True
             if not agotados:
-                print("\n ✅  No hay titulos agotados dentro del catalogo.\n")
+                print("\n ✅  No hay titulos agotados dentro del catalogo.")
         else:
-            print("\n ⚠️  No hay titulos disponibles dentro del catalogo.\n")
+            print("\n ⚠️  No hay titulos disponibles dentro del catalogo.")
 
     # Defino metodo para pedir prestado un ejemplar
     def PedirEjemplar():
@@ -205,12 +207,12 @@ def programa_principal():
                             GuardarProductos(titulos)
                             break
                         else:
-                            print(f"\n⚠️  No hay copias del titulo '{nombre}' disponibles para préstamo en este momento.\n")
+                            print(f"\n⚠️  No hay copias del titulo '{nombre}' disponibles para préstamo en este momento.")
                         
             else:
-                print(f"\n ⚠️  El titulo '{nombre}' no se encuentra dentro del catalogo.\n")
+                print(f"\n ⚠️  El titulo '{nombre}' no se encuentra dentro del catalogo.")
         else:
-            print("\n ⚠️  No hay titulos disponibles dentro del catalogo.\n")
+            print("\n ⚠️  No hay titulos disponibles dentro del catalogo.")
     
     # Defino metodo para devolver un ejemplar
     def DevolverEjemplar():
@@ -226,9 +228,9 @@ def programa_principal():
                         GuardarProductos(titulos)
                         break
             else:
-                print(f"\n ⚠️  El titulo '{nombre}' no se encuentra dentro del catalogo.\n")
+                print(f"\n ⚠️  El titulo '{nombre}' no se encuentra dentro del catalogo.")
         else:
-            print("\n ⚠️  No hay titulos disponibles dentro del catalogo.\n")
+            print("\n ⚠️  No hay titulos disponibles dentro del catalogo.")
 
     # Defino metodo que contiene el menu secundario para actualizar los ejemplares
     def ActualizarEjemplares():
@@ -254,10 +256,10 @@ def programa_principal():
                 case "3":
                     MostrarTitulos()
                 case "4":
-                    print("Volviendo al menu principal...\n")
+                    print("✅ Volviendo al menu principal...\n")
                     break
                 case _:
-                    print("⚠️  Opción inválida. Por favor, elija una opción del 1 al 4.\n")
+                    print("\n⚠️  Opción inválida. Por favor, elija una opción del 1 al 4.\n")
                     continue   
                 
     # Defino metodo para ingresar varios titulos a la vez, maximo 10 para evitar estar en un loop por ejemplo de ingresar 1000 titulos
@@ -286,7 +288,7 @@ def programa_principal():
     while True:
         # Mostramos las opciones del menu al usuario
         print("\n"+"="*54)
-        print("Bienvenido al catálogo de titulos, elija una opción")
+        print("Bienvenido al catálogo de titulos, elija una opción") 
         print("="*54)
         for opcion in menu_principal:
             print(opcion)
@@ -310,7 +312,7 @@ def programa_principal():
             case "7":
                 ActualizarEjemplares()
             case "8":
-                print("Saliendo del programa... ¡Hasta luego!\n")
+                print("✅ Saliendo del programa... ¡Hasta luego!\n")
                 break
             # Opcion inválida
             case _:
