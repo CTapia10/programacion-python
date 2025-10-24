@@ -65,18 +65,15 @@ def programa_principal():
         while True:
             cantidad = input("\nIngrese la cantidad deseada: ").strip()
             if not cantidad.isdigit():
-                print("\n ⚠️  Ingrese una cantidad valida (numero entero entre 1 y 100).")
+                print("\n ⚠️  Ingrese una cantidad valida (numero entero entre 0 y 1000).")
                 continue
             # Despues de verificar que no hayan signos especiales transformo a entero
             cantidad = int(cantidad)
-            if not (0 < cantidad < 101):
-                print("\n ⚠️  Ingrese una cantidad valida (numero entero entre 1 y 100).")
+            if not (0 <= cantidad < 1000):
+                print("\n ⚠️  Ingrese una cantidad valida (numero entero entre 0 y 1000).")
                 continue
             break
         return cantidad
-    
-    
-    
     
     def ObtenerTitulos():
         dir_archivo = DirArchivo()
@@ -87,7 +84,7 @@ def programa_principal():
                 filas = csv.DictWriter(archivo, fieldnames=["Titulo", "Cantidad"])
                 filas.writeheader()
                 return titulos
-
+        
         with open(dir_archivo, "r", newline="",encoding="utf-8") as archivo:
             filas = csv.DictReader(archivo)
             for fila in filas:
@@ -96,11 +93,15 @@ def programa_principal():
             
             
     def MostrarTitulos():
-        print("\n" + "=" * 18 + " Titulos disponibles " + "=" * 18)
         titulos = ObtenerTitulos()
-        for titulo in titulos:
-            print(f"{titulo["Titulo"]} - {titulo["Cantidad"]}")
-        print("=" * 56)
+        if titulos:
+            print("\n" + "=" * 18 + " Titulos disponibles " + "=" * 18)
+            for titulo in titulos:
+                for clave, valor in titulo.items():
+                    print(f"{clave}: {valor}")
+                print("=" * 54)
+        else:
+            print("\n ⚠️  No hay titulos disponibles dentro del catalogo.\n")
     
     def ExisteTitulo(nombre):
         # Verifica si existe un titulo con el nombre indicado en el archivo.
@@ -111,31 +112,34 @@ def programa_principal():
         return False
 
     # Defino metodo para consultar por un titulo en especifico y lo muestro en pantalla
-    def MostrarTituloConsulta(tit_consulta):
-        if not ExisteTitulo(tit_consulta):
-            print(f"\n ⚠️  El titulo {tit_consulta} no se encuentra dentro del catalogo.\n")
+    def MostrarTituloConsulta():
+        titulos = ObtenerTitulos()
+        if titulos:
+            nombre_titulo = PedirNombre()
+            if not ExisteTitulo(nombre_titulo):
+                print(f"\n ⚠️  El titulo {nombre_titulo} no se encuentra dentro del catalogo.\n")
+            else:
+                for titulo in titulos:
+                    if titulo.get("Titulo") == nombre_titulo:
+                        print("=" * 54)
+                        for clave, valor in titulo.items():
+                            print(f"{clave}: {valor}")
+                        print("=" * 54)
+                        break
         else:
-            titulos = ObtenerTitulos()
-            for titulo in titulos:
-                if titulo.get("Titulo") == tit_consulta:
-                    print("=" * 54)
-                    for clave, valor in titulo.items():
-                        print(f"{clave}: {valor}")
-                    print("=" * 54)
-                    break
-    
+            print("\n ⚠️  No hay titulos disponibles dentro del catalogo.\n")
     # Defino metodo para agregar titulos al csv sin sobreescribir
-    def AgregarNuevoTitulo(nombre):
+    def AgregarNuevoTitulo():
+        nombre_titulo = PedirNombre()
         dir_archivo = DirArchivo()
-        if not ExisteTitulo(nombre):
+        if not ExisteTitulo(nombre_titulo):
             cantidad = PedirCantidad()
             with open(dir_archivo, "a", newline="", encoding="utf-8") as archivo:
                 filas = csv.DictWriter(archivo, fieldnames=["Titulo", "Cantidad"])
-                filas.writerow({"Titulo": nombre, "Cantidad": cantidad})
-            print(f"\n ✅ Titulo {nombre} agregado correctamente.")
+                filas.writerow({"Titulo": nombre_titulo, "Cantidad": cantidad})
+            print(f"\n ✅ Titulo {nombre_titulo} agregado correctamente.")
         else:
             print("\n ⚠️  El titulo ya se encuentra dentro del catalogo.\n")
-            MostrarTituloConsulta(nombre)
             
     def GuardarProductos(filas_titulos):
         dir_archivo = DirArchivo()
@@ -146,23 +150,40 @@ def programa_principal():
     
     def IngresarEjemplares():
         titulos = ObtenerTitulos()
-        print("\nA que titulo desea agregarle ejemplares?")
-        nombre = PedirNombre()
-        if ExisteTitulo(nombre):
-            for titulo in titulos:
-                if titulo["Titulo"] == nombre:
-                    print(f"Cuantos ejemplares desea agregarle al titulo {nombre}?")
-                    cant_ejemplares = PedirCantidad()
-                    titulo["Cantidad"] =+ cant_ejemplares
-                    print(f"\n ✅ Se agregaron con exito {cant_ejemplares} al titulo {nombre} | Cantidad actual: {titulo["Cantidad"]}.")
-                    GuardarProductos(titulos)
-                    break
+        if titulos:
+            print("\nA que titulo desea agregarle ejemplares?")
+            nombre = PedirNombre()
+            if ExisteTitulo(nombre):
+                for titulo in titulos:
+                    if titulo["Titulo"] == nombre:
+                        print(f"Cuantos ejemplares desea agregarle al titulo '{nombre}' ?")
+                        cant_ejemplares = PedirCantidad()
+                        titulo["Cantidad"] =+ cant_ejemplares
+                        print(f"\n ✅ Se agregaron con exito {cant_ejemplares} al titulo {nombre} | Cantidad actual: {titulo["Cantidad"]}.")
+                        GuardarProductos(titulos)
+                        break
+            else:
+                print("\n ⚠️  El titulo ingresado no se encuentra dentro del catalogo.\n")
         else:
-            print("\n ⚠️  El titulo ingresado no se encuentra dentro del catalogo.\n")
-                
+            print("\n ⚠️  No hay titulos disponibles dentro del catalogo.\n")
+            
     def MostrarAgotados():
-        pass
+        titulos = ObtenerTitulos()
+        agotados = False
+        if titulos:
+            print("\n" + "=" * 18 + " Titulos agotados " + "=" * 18)
+            for titulo in titulos:
+                if titulo["Cantidad"] == 0:
+                    print(f"{titulo["Titulo"]} | Agotado")
+                    agotados = True
+                if not agotados:
+                    print("\n ✅  No hay titulos agotados dentro del catalogo.\n")
+        else:
+            print("\n ⚠️  No hay titulos disponibles dentro del catalogo.\n")
 
+
+    
+    
     menu_principal = ["1. Ingresar títulos",
                     "2. Ingresar ejemplares",
                     "3. Mostrar catálogo",
@@ -190,29 +211,44 @@ def programa_principal():
                     print(f"\nTitulo numero {i+1}")
                     nombre_titulo = PedirNombre()
                     AgregarNuevoTitulo(nombre_titulo)
-                # Permite cargar varios libros de una vez, el usuario indica la
-                # cantidad de libros que quiere cargar. Por cada libro, pedir TITULO (no vacío, no
-                # duplicado) y CANTIDAD (>= 0).
-                pass
             case "2":
                 IngresarEjemplares()
             case "3":
                 MostrarTitulos()
             case "4":
-                nombre_titulo = PedirNombre()
-                MostrarTituloConsulta(nombre_titulo)
+                MostrarTituloConsulta()
             case "5":
-                # mostrar solo los títulos con CANTIDAD == 0.
-                pass
+                MostrarAgotados()
             case "6":
-                nombre_titulo = PedirNombre()
-                AgregarNuevoTitulo(nombre_titulo)
-                # alta de un libro individual (validar duplicados) con su cantidad inicial
-                pass
+                AgregarNuevoTitulo()
             case "7":
-                # Préstamo: restar 1 solo si CANTIDAD > 0.
-                # Devolución: sumar 1.
-                pass
+                menu_secundario = ["1. Pedir prestado un titulo",
+                                "2. Devolver un titulo",
+                                "3. Mostrar catálogo",
+                                "4. Volver al menu principal"]
+                while True:
+                    # Mostramos las opciones del menu al usuario
+                    print("\n"+"="*54)
+                    print("Elija una opción")
+                    print("="*54)
+                    for opcion in menu_secundario:
+                        print(opcion)
+                    print("="*54)
+                    seleccion = input("Opción seleccionada: ").strip()
+                    print("="*54)
+                    match seleccion:
+                        case "1":
+                            pass
+                        case "2":
+                            pass
+                        case "3":
+                            MostrarTitulos()
+                        case "4":
+                            print("Volviendo al menu principal...!\n")
+                            break
+                        case _:
+                            print("⚠️  Opción inválida. Por favor, elija una opción del 1 al 4.\n")
+                            continue   
             case "8":
                 print("Saliendo del programa... ¡Hasta luego!\n")
                 break
