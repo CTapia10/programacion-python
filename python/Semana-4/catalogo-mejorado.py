@@ -69,7 +69,7 @@ def programa_principal():
                 continue
             # Despues de verificar que no hayan signos especiales transformo a entero
             cantidad = int(cantidad)
-            if not (0 <= cantidad < 1000):
+            if not (0 <= cantidad <= 1000):
                 print("\n ⚠️  Ingrese una cantidad valida (numero entero entre 0 y 1000).")
                 continue
             break
@@ -95,7 +95,7 @@ def programa_principal():
     def MostrarTitulos():
         titulos = ObtenerTitulos()
         if titulos:
-            print("\n" + "=" * 18 + " Titulos disponibles " + "=" * 18)
+            print("\n" + "=" * 16 + " Titulos disponibles " + "=" * 17)
             for titulo in titulos:
                 for clave, valor in titulo.items():
                     print(f"{clave}: {valor}")
@@ -121,6 +121,7 @@ def programa_principal():
             else:
                 for titulo in titulos:
                     if titulo.get("Titulo") == nombre_titulo:
+                        print(f"\n ✅ El titulo {nombre_titulo} esta disponible.")
                         print("=" * 54)
                         for clave, valor in titulo.items():
                             print(f"{clave}: {valor}")
@@ -139,7 +140,7 @@ def programa_principal():
                 filas.writerow({"Titulo": nombre_titulo, "Cantidad": cantidad})
             print(f"\n ✅ Titulo {nombre_titulo} agregado correctamente.")
         else:
-            print("\n ⚠️  El titulo ya se encuentra dentro del catalogo.\n")
+            print(f"\n ⚠️  El titulo {nombre_titulo} ya se encuentra dentro del catalogo.\n")
             
     def GuardarProductos(filas_titulos):
         dir_archivo = DirArchivo()
@@ -156,14 +157,18 @@ def programa_principal():
             if ExisteTitulo(nombre):
                 for titulo in titulos:
                     if titulo["Titulo"] == nombre:
-                        print(f"Cuantos ejemplares desea agregarle al titulo '{nombre}' ?")
+                        print(f"\nCuantos ejemplares desea agregarle al titulo '{nombre}' ?")
                         cant_ejemplares = PedirCantidad()
-                        titulo["Cantidad"] =+ cant_ejemplares
-                        print(f"\n ✅ Se agregaron con exito {cant_ejemplares} al titulo {nombre} | Cantidad actual: {titulo["Cantidad"]}.")
-                        GuardarProductos(titulos)
-                        break
+                        if not cant_ejemplares == 0:
+                            titulo["Cantidad"] += cant_ejemplares
+                            print(f"\n ✅ Se agregaron con exito {cant_ejemplares} al titulo '{nombre}' | Cantidad actual: {titulo["Cantidad"]}.")
+                            GuardarProductos(titulos)
+                            break
+                        else:
+                            print("\n ✅ No se agrego ningun ejemplar.\n")
+                            break
             else:
-                print("\n ⚠️  El titulo ingresado no se encuentra dentro del catalogo.\n")
+                print(f"\n ⚠️  El titulo '{nombre}' no se encuentra dentro del catalogo.\n")
         else:
             print("\n ⚠️  No hay titulos disponibles dentro del catalogo.\n")
             
@@ -174,16 +179,51 @@ def programa_principal():
             print("\n" + "=" * 18 + " Titulos agotados " + "=" * 18)
             for titulo in titulos:
                 if titulo["Cantidad"] == 0:
-                    print(f"{titulo["Titulo"]} | Agotado")
+                    print(f"{titulo["Titulo"]} | Agotado ⚠️")
                     agotados = True
-                if not agotados:
-                    print("\n ✅  No hay titulos agotados dentro del catalogo.\n")
+            if not agotados:
+                print("\n ✅  No hay titulos agotados dentro del catalogo.\n")
         else:
             print("\n ⚠️  No hay titulos disponibles dentro del catalogo.\n")
 
+    def PedirEjemplar():
+        titulos = ObtenerTitulos()
+        if titulos:
+            print("\nQue titulo desea pedir prestado?")
+            nombre = PedirNombre()
+            if ExisteTitulo(nombre):
+                for titulo in titulos:
+                    if titulo["Titulo"] == nombre:
+                        if (titulo["Cantidad"] > 0):
+                            titulo["Cantidad"] -= 1
+                            print(f"\n ✅ Se tomo prestado con exito el titulo '{nombre}' | Cantidad actual: {titulo["Cantidad"]}.")
+                            GuardarProductos(titulos)
+                            break
+                        else:
+                            print(f"\n⚠️  No hay copias del titulo '{nombre}' disponibles para préstamo en este momento.\n")
+                        
+            else:
+                print(f"\n ⚠️  El titulo '{nombre}' no se encuentra dentro del catalogo.\n")
+        else:
+            print("\n ⚠️  No hay titulos disponibles dentro del catalogo.\n")
+    
+    def DevolverEjemplar():
+        titulos = ObtenerTitulos()
+        if titulos:
+            print("\nQue titulo desea devolver?")
+            nombre = PedirNombre()
+            if ExisteTitulo(nombre):
+                for titulo in titulos:
+                    if titulo["Titulo"] == nombre:
+                        titulo["Cantidad"] += 1
+                        print(f"\n ✅ Devolución con exito del titulo '{nombre}' | Cantidad actual: {titulo["Cantidad"]}.")
+                        GuardarProductos(titulos)
+                        break
+            else:
+                print(f"\n ⚠️  El titulo '{nombre}' no se encuentra dentro del catalogo.\n")
+        else:
+            print("\n ⚠️  No hay titulos disponibles dentro del catalogo.\n")
 
-    
-    
     menu_principal = ["1. Ingresar títulos",
                     "2. Ingresar ejemplares",
                     "3. Mostrar catálogo",
@@ -205,12 +245,17 @@ def programa_principal():
         print("="*54)
         match seleccion:
             case "1":
-                print("\nCuantos titulos desea ingresar?")
-                cant_titulos_agregar = PedirCantidad()
-                for i in range(cant_titulos_agregar):
-                    print(f"\nTitulo numero {i+1}")
-                    nombre_titulo = PedirNombre()
-                    AgregarNuevoTitulo(nombre_titulo)
+                while True:
+                    print("\nCuantos titulos desea ingresar?")
+                    cant_titulos_agregar = PedirCantidad()
+                    if cant_titulos_agregar > 10:
+                        print("\n ⚠️  Advertencia, el numero ingresado es muy alto, el maximo de titulos permitidos a agregar son 10.")
+                        continue
+                    else:
+                        for i in range(cant_titulos_agregar):
+                            print(f"\nTitulo numero {i+1}")
+                            AgregarNuevoTitulo()
+                    break
             case "2":
                 IngresarEjemplares()
             case "3":
@@ -238,13 +283,13 @@ def programa_principal():
                     print("="*54)
                     match seleccion:
                         case "1":
-                            pass
+                            PedirEjemplar()
                         case "2":
-                            pass
+                            DevolverEjemplar()
                         case "3":
                             MostrarTitulos()
                         case "4":
-                            print("Volviendo al menu principal...!\n")
+                            print("Volviendo al menu principal...\n")
                             break
                         case _:
                             print("⚠️  Opción inválida. Por favor, elija una opción del 1 al 4.\n")
@@ -254,7 +299,7 @@ def programa_principal():
                 break
             # Opcion inválida
             case _:
-                print("⚠️  Opción inválida. Por favor, elija una opción del 1 al 6.\n")
+                print("⚠️  Opción inválida. Por favor, elija una opción del 1 al 8.\n")
                 continue            
     
 #=========================================================================================#
