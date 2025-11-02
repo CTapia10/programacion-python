@@ -7,14 +7,14 @@
     # TITULO → str (nombre del libro)
     # CANTIDAD → int (número de ejemplares disponibles, >= 0)
 
-# TODO: Comportamiento esperado
+# Comportamiento esperado
 # Si el CSV no existe, iniciar con catálogo vacío.
 # ● Si el usuario ingresa un título duplicado, rechazar y volver a pedir.
 # ● Tras agregar/actualizar datos, guardar automáticamente en el CSV.
 # ● Las búsquedas de títulos deben ser robustas (insensibles a mayúsculas y espacios
 #   extra).
 
-# TODO VALIDACIONES: 
+# VALIDACIONES: 
 # Unicidad: no pueden existir dos libros con el mismo TITULO (comparación insensible a mayúsculas/minúsculas y espacios redundantes).
 # Títulos: no se aceptan vacíos; comparar sin sensibilidad a mayúsculas y normalizando espacios.
 # Cantidades: deben ser enteros >= 0 al cargar/editar
