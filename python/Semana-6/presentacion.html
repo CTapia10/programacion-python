@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación: Matemática y Programación</title>
+    <!-- Carga de Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carga de la fuente Inter de Google Fonts --><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Estilo base con la fuente Inter */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Estilos para las diapositivas y transiciones */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            /* Transición suave de opacidad */
+            transition: opacity 0.6s ease-in-out;
+            pointer-events: none; /* Evita clics en diapositivas inactivas */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centra el contenido verticalmente */
+            padding: 2.5rem 4rem; /* Padding interno */
+        }
+
+        .slide.active-slide {
+            opacity: 1;
+            pointer-events: auto; /* Permite interacción en la diapositiva activa */
+        }
+
+        /* Estilos para el código */
+        pre code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        /* --- Estilos para Focos (Slide 4) --- */
+        .bulb-interactive {
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+        .bulb-interactive:active {
+            transform: scale(0.95); /* Efecto al hacer clic */
+        }
+        .bulb-svg {
+            color: #4B5563; /* Color "apagado" (gray-600) */
+            transition: color 0.3s ease;
+        }
+        .bulb-interactive.on .bulb-svg {
+            color: #FACC15; /* Color "encendido" (yellow-400) */
+            /* Efecto de brillo */
+            filter: drop-shadow(0 0 12px #FACC15);
+        }
+        /* --- Fin Estilos para Focos --- */
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 flex flex-col items-center justify-center min-h-screen p-4 overflow-hidden">
+
+    <!-- Contenedor principal de la presentación --><main class="relative w-full max-w-5xl h-[600px] max-h-[80vh] bg-gray-800 rounded-2xl shadow-2xl overflow-hidden">
+
+        <!-- Diapositiva 1: Título --><div class="slide active-slide items-center text-center" id="slide-1">
+            <h1 class="text-5xl font-black text-cyan-400 mb-4">El Puente Oculto</h1>
+            <h2 class="text-3xl font-light text-gray-200">Conectando Matemática y Programación</h2>
+            <p class="mt-12 text-xl">Cristian Tapia</p>
+            <p class="text-lg text-gray-400">Matematica 1</p>
+            <p class="text-md text-gray-500 mt-2">Tecnicatura en programacion a distancia (TUPAD) - UTN</p>
+        </div>
+
+        <!-- Diapositiva 2: Agenda --><div class="slide" id="slide-2">
+            <h1 class="text-4xl font-bold text-cyan-400 mb-8">Nuestra Hoja de Ruta</h1>
+            <ul class="list-decimal list-inside space-y-4 text-2xl text-gray-200">
+                <li>Sistemas Binarios: El ADN del hardware.</li>
+                <li>Lógica: El cerebro del software.</li>
+                <li>Conjuntos: El ADN de las bases de datos.</li>
+                <li>Reflexión: El papel de la Inteligencia Artificial.</li>
+            </ul>
+        </div>
+
+        <!-- Diapositiva 3: UNIDAD 1 - Sistemas Binarios --><div class="slide" id="slide-3">
+            <h1 class="text-4xl font-bold text-cyan-400 mb-6">Unidad 1: Sistemas Binarios</h1>
+            <h2 class="text-2xl font-light text-gray-300 mb-8">La Lingüística Fundamental del Hardware</h2>
+            <p class="text-xl leading-relaxed">
+                La relación es total: las computadoras solo entienden "encendido" (1) y "apagado" (0).
+                Todo lo que programamos debe ser traducido a esta secuencia de bits para que la máquina pueda ejecutarlo.
+            </p>
+            
+        </div>
+
+        <!-- Diapositiva 4: Binarios - Aplicación y Ejemplo --><div class="slide" id="slide-4">
+            <h1 class="text-4xl font-bold text-cyan-400 mb-4">Aplicación: Representación de Datos</h1>
+            <p class="text-xl text-gray-300 mb-6">¡Haz click en los focos para cambiar el número!</p>
+
+            <!-- Contenedor de Focos Interactivos -->
+            <div class="flex justify-center space-x-4 md:space-x-8 mb-6">
+                
+                <!-- Foco 8 (Valor 2^3) -->
+                <div class="bulb-interactive text-center on" data-value="8">
+                    <!-- SVG MODIFICADO -->
+                    <svg class="w-16 h-16 md:w-20 md:h-20 bulb-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M 9 19 L 15 19 L 15 22 L 9 22 Z" />
+                        <path d="M 9 19 C 7 17, 5 14, 5 10 A 7 7 0 1 1 19 10 C 19 14, 17 17, 15 19" />
+                        <path d="M 9 10 A 3 3 0 0 1 15 10" />
+                    </svg>
+                    <span class="text-xl md:text-2xl font-bold text-white mt-2">8</span>
+                </div>
+                
+                <!-- Foco 4 (Valor 2^2) -->
+                <div class="bulb-interactive text-center on" data-value="4">
+                    <!-- SVG MODIFICADO -->
+                    <svg class="w-16 h-16 md:w-20 md:h-20 bulb-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M 9 19 L 15 19 L 15 22 L 9 22 Z" />
+                        <path d="M 9 19 C 7 17, 5 14, 5 10 A 7 7 0 1 1 19 10 C 19 14, 17 17, 15 19" />
+                        <path d="M 9 10 A 3 3 0 0 1 15 10" />
+                    </svg>
+                    <span class="text-xl md:text-2xl font-bold text-white mt-2">4</span>
+                </div>
+                
+                <!-- Foco 2 (Valor 2^1) -->
+                <div class="bulb-interactive text-center" data-value="2">
+                    <!-- SVG MODIFICADO -->
+                    <svg class="w-16 h-16 md:w-20 md:h-20 bulb-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M 9 19 L 15 19 L 15 22 L 9 22 Z" />
+                        <path d="M 9 19 C 7 17, 5 14, 5 10 A 7 7 0 1 1 19 10 C 19 14, 17 17, 15 19" />
+                        <path d="M 9 10 A 3 3 0 0 1 15 10" />
+                    </svg>
+                    <span class="text-xl md:text-2xl font-bold text-white mt-2">2</span>
+                </div>
+                
+                <!-- Foco 1 (Valor 2^0) -->
+                <div class="bulb-interactive text-center on" data-value="1">
+                    <!-- SVG MODIFICADO -->
+                    <svg class="w-16 h-16 md:w-20 md:h-20 bulb-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M 9 19 L 15 19 L 15 22 L 9 22 Z" />
+                        <path d="M 9 19 C 7 17, 5 14, 5 10 A 7 7 0 1 1 19 10 C 19 14, 17 17, 15 19" />
+                        <path d="M 9 10 A 3 3 0 0 1 15 10" />
+                    </svg>
+                    <span class="text-xl md:text-2xl font-bold text-white mt-2">1</span>
+                </div>
+            </div>
+            
+            <!-- Display del Total -->
+            <div class="bg-gray-900 rounded-lg p-6 text-xl font-mono text-center">
+                <p class="text-2xl">Binario: <span id="binary-display" class="text-cyan-400 text-3xl font-bold">1101</span></p>
+                <p class="text-gray-400 mt-4 text-xl">Total Decimal: <span id="total-display" class="text-cyan-400 text-2xl">13</span></p>
+            </div>
+            
+            <p class="text-xl text-gray-300 mt-6">
+                Dato: La letra <span class="font-bold text-white">'A'</span> (ASCII) se guarda como <span class="font-mono text-yellow-300">01000001</span> (65).
+            </p>
+        </div>
+
+        <!-- Diapositiva 5: UNIDAD 2 - Lógica --><div class="slide" id="slide-5">
+            <h1 class="text-4xl font-bold text-cyan-400 mb-6">Unidad 2: Lógica</h1>
+            <h2 class="text-2xl font-light text-gray-300 mb-8">El Cerebro que Toma Decisiones</h2>
+            <p class="text-xl leading-relaxed mb-6">
+                Si el sistema binario es el "qué" se almacena, la lógica es el "cómo" se actúa sobre ello.
+                Es el conjunto de reglas (AND, OR, NOT) que permite a un software tomar decisiones y crear flujos condicionales.
+            </p>
+            <div class="flex justify-center">
+                <!-- SVG de Compuertas Lógicas (Reemplaza la <img>) -->
+                <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg" class="max-h-48">
+                  <title>Compuertas Lógicas AND y OR</title>
+                  <!-- AND Gate -->
+                  <g transform="translate(10, 10)">
+                    <path d="M 0 10 H 25 V 70 H 0 Z" fill="#06B6D4" stroke="none" />
+                    <path d="M 25 10 A 30 30 0 0 1 25 70" fill="#06B6D4" stroke="none" />
+                    <text x="10" y="88" fill="white" font-size="14" font-family="Inter, sans-serif">AND</text>
+                    <!-- Input/Output lines -->
+                    <line x1="-10" y1="25" x2="0" y2="25" stroke="white" stroke-width="2" />
+                    <line x1="-10" y1="55" x2="0" y2="55" stroke="white" stroke-width="2" />
+                    <line x1="55" y1="40" x2="65" y2="40" stroke="white" stroke-width="2" />
+                  </g>
+                  <!-- OR Gate -->
+                  <g transform="translate(110, 10)">
+                    <path d="M 0 10 Q 20 40 0 70 L 0 70 C 15 60, 35 50, 55 40 C 35 30, 15 20, 0 10 Z" fill="#A855F7" stroke="none" />
+                    <text x="15" y="88" fill="white" font-size="14" font-family="Inter, sans-serif">OR</text>
+                    <!-- Input/Output lines -->
+                    <line x1="-10" y1="20" x2="5" y2="20" stroke="white" stroke-width="2" />
+                    <line x1="-10" y1="60" x2="5" y2="60" stroke="white" stroke-width="2" />
+                    <line x1="55" y1="40" x2="65" y2="40" stroke="white" stroke-width="2" />
+                  </g>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Diapositiva 6: Lógica - Aplicación y Ejemplo --><div class="slide" id="slide-6">
+            <h1 class="text-4xl font-bold text-cyan-400 mb-6">Aplicación: Flujos Condicionales</h1>
+            <p class="text-xl text-gray-300 mb-4">
+                <span class="font-bold text-white">Regla:</span> "El usuario debe ser 'Admin' <span class="text-yellow-300">O</span> debe ser 'Editor' <span class="text-yellow-300">Y</span> estar 'Activo'."
+            </p>
+            <p class="text-2xl text-white mb-4 font-mono">
+                Lógica: P <span class="text-cyan-400">OR</span> (Q <span class="text-cyan-400">&</span> R)
+            </p>
+
+            <!-- Fragmento de código de Python --><pre class="bg-gray-900 rounded-lg p-6 w-full text-lg"><code class="language-python text-green-300"><span class="text-purple-400">if</span> (rol == <span class="text-yellow-300">"Admin"</span>) <span class="text-purple-400">or</span> \
+   (rol == <span class="text-yellow-300">"Editor"</span> <span class="text-purple-400">and</span> estado == <span class="text-yellow-300">"Activo"</span>):
+    
+    <span class="text-blue-400">print</span>(<span class="text-yellow-300">"Acceso Concedido"</span>)
+<span class="text-purple-400">else</span>:
+    <span class="text-blue-400">print</span>(<span class="text-yellow-300">"Acceso Denegado"</span>)
+</code></pre>
+        </div>
+
+        <!-- Diapositiva 7: UNIDAD 3 - Conjuntos --><div class="slide" id="slide-7">
+            <h1 class="text-4xl font-bold text-cyan-400 mb-6">Unidad 3: Teoría de Conjuntos</h1>
+            <h2 class="text-2xl font-light text-gray-300 mb-8">El ADN de las Bases de Datos (SQL)</h2>
+            <p class="text-xl leading-relaxed mb-6">
+                La teoría de conjuntos es la base matemática para organizar y consultar colecciones de datos.
+                Una tabla en una base de datos es, conceptualmente, un conjunto de registros únicos.
+            </p>
+            <div class="flex justify-center">
+                <!-- SVG de Diagrama de Venn (Reemplaza la <img>) -->
+                <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" class="max-h-48 rounded-lg">
+                  <title>Diagrama de Venn</title>
+                  <circle cx="80" cy="60" r="50" fill="#06B6D4" fill-opacity="0.6" />
+                  <circle cx="120" cy="60" r="50" fill="#A855F7" fill-opacity="0.6" />
+                  <text x="60" y="65" font-family="Inter, sans-serif" font-size="24" fill="white" font-weight="bold">A</text>
+                  <text x="140" y="65" font-family="Inter, sans-serif" font-size="24" fill="white" font-weight="bold">B</text>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Diapositiva 8: Conjuntos - Aplicación y Ejemplo --><div class="slide" id="slide-8">
+            <h1 class="text-4xl font-bold text-cyan-400 mb-4">Aplicación: Consultas SQL Ejecutables</h1>
+            <p class="text-lg text-gray-300 mb-4">Este código crea 2 tablas temporales y muestra las 3 operaciones:</p>
+            
+            <pre class="bg-gray-900 rounded-lg p-4 w-full text-xs overflow-auto h-80"><code class="language-sql text-green-300"><span class="text-purple-400">WITH</span> Alumnos_Gimnasia (nombre) <span class="text-purple-400">AS</span> (
+  <span class="text-purple-400">VALUES</span> (<span class="text-yellow-300">'Ana'</span>), (<span class="text-yellow-300">'Bruno'</span>), (<span class="text-yellow-300">'Carla'</span>)
+),
+Alumnos_Natacion (nombre) <span class="text-purple-400">AS</span> (
+  <span class="text-purple-400">VALUES</span> (<span class="text-yellow-300">'Bruno'</span>), (<span class="text-yellow-300">'Carla'</span>), (<span class="text-yellow-300">'David'</span>)
+)
+
+-- 1. UNIÓN (A ∪ B): Todos los alumnos, sin repetir.
+-- (Resultado: Ana, Bruno, Carla, David)
+<span class="text-purple-400">SELECT</span> nombre <span class="text-purple-400">FROM</span> Alumnos_Gimnasia
+<span class="text-purple-400">UNION</span>
+<span class="text-purple-400">SELECT</span> nombre <span class="text-purple-400">FROM</span> Alumnos_Natacion;
+
+-- 2. INTERSECCIÓN (A ∩ B): Alumnos en AMBAS clases.
+-- (Resultado: Bruno, Carla)
+-- SELECT nombre FROM Alumnos_Gimnasia
+-- INTERSECT
+-- SELECT nombre FROM Alumnos_Natacion;
+
+-- 3. DIFERENCIA (A - B): Alumnos SÓLO en Gimnasia.
+-- (Resultado: Ana)
+-- SELECT nombre FROM Alumnos_Gimnasia
+-- EXCEPT
+-- SELECT nombre FROM Alumnos_Natacion;
+</code></pre>
+            <p class="text-sm text-gray-400 mt-2">Nota: Para probar las consultas 2 y 3, descomenta sus bloques y comenta las otras consultas.</p>
+        </div>
+
+        <!-- Diapositiva 9: Reflexión sobre IA --><div class="slide" id="slide-9">
+            <h1 class="text-4xl font-bold text-cyan-400 mb-8">Cierre: El Rol de la IA</h1>
+            <p class="text-2xl font-light text-gray-300 mb-6">La IA actúa como un "catalizador" del conocimiento:</p>
+            <ul class="list-disc list-inside space-y-4 text-2xl text-gray-200">
+                <li>Un <span class="font-bold text-white">asistente experto</span> que sintetiza conceptos.</li>
+                <li>Un <span class="font-bold text-white">socio de debate</span> que propone soluciones.</li>
+                <li>Una <span class="font-bold text-white">herramienta de productividad</span> que acelera tareas.</li>
+            </ul>
+        </div>
+
+        <!-- Diapositiva 10: IA - Mi Experiencia Personal --><div class="slide" id="slide-10">
+            <h1 class="text-4xl font-bold text-cyan-400 mb-8">Mi Experiencia Personal con IA</h1>
+            <p class="text-lg text-gray-400 mb-4">(Usando [Menciona aquí las herramientas que usaste, ej: Gemini])</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-lg">
+                <div class="bg-gray-700 p-6 rounded-lg">
+                    <h3 class="text-2xl font-bold text-green-400 mb-3">Ayudas Concretas</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Búsqueda de ideas (ej. analogías para conjuntos).</li>
+                        <li>Generación de código de ejemplo (ej. la lógica de validación).</li>
+                        <li>Validación de la sintaxis de SQL.</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg">
+                    <h3 class="text-2xl font-bold text-red-400 mb-3">Dificultades Encontradas</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Falta de contexto (respuestas muy básicas/avanzadas).</li>
+                        <li>Errores sutiles (mezcla de sintaxis SQL).</li>
+                        <li>Requiere supervisión y pensamiento crítico constante.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Diapositiva 11: Conclusión --><div class="slide" id="slide-11">
+            <h1 class="text-4xl font-bold text-cyan-400 mb-8">Conclusión</h1>
+            <p class="text-3xl font-light text-gray-200 leading-normal mb-10">
+                La matemática no es un requisito para programar;
+                <span class="block font-bold text-white text-4xl mt-2">es el lenguaje</span> sobre el que se construye el software.
+            </p>
+            
+            <div class="text-2xl font-bold text-center bg-gray-900 p-8 rounded-lg">
+                <span class="text-yellow-300">Binario</span> (Hardware) 
+                <span class="text-gray-400">+</span>
+                <span class="text-cyan-300">Lógica</span> (Decisiones) 
+                <span class="text-gray-400">+</span>
+                <span class="text-green-300">Conjuntos</span> (Datos)
+                <span class="text-gray-400">=</span>
+                <span class="text-white text-3xl">Software Funcional</span>
+            </div>
+        </div>
+        
+        <!-- Diapositiva 12: Cierre --><div class="slide items-center text-center" id="slide-12">
+            <h1 class="text-6xl font-black text-cyan-400 mb-8">Muchas gracias!</h1>
+        </div>
+
+    </main>
+
+    <!-- Controles de Navegación --><div class="mt-6 flex space-x-4" id="nav-buttons">
+        <button id="prevButton" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-200 disabled:bg-gray-600 disabled:cursor-not-allowed">
+            Anterior
+        </button>
+        <button id="nextButton" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-200 disabled:bg-gray-600 disabled:cursor-not-allowed">
+            Siguiente
+        </button>
+    </div>
+
+    <!-- Script de JavaScript para la navegación --><script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.slide');
+            const totalSlides = slides.length;
+            const prevButton = document.getElementById('prevButton');
+            const nextButton = document.getElementById('nextButton');
+
+            function showSlide(index) {
+                // Oculta la diapositiva actual
+                slides[currentSlide].classList.remove('active-slide');
+                
+                // Muestra la nueva diapositiva
+                slides[index].classList.add('active-slide');
+                
+                // Actualiza el índice actual
+                currentSlide = index;
+
+                // Actualiza el estado de los botones
+                prevButton.disabled = (currentSlide === 0);
+                nextButton.disabled = (currentSlide === totalSlides - 1);
+            }
+
+            // Evento para el botón Siguiente
+            nextButton.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    showSlide(currentSlide + 1);
+                }
+            })
+                // Evento para el botón atras
+            prevButton.addEventListener('click', () => {
+                if (currentSlide < totalSlides + 1) {
+                    showSlide(currentSlide - 1);
+                }
+            });
+
+            // --- Logica de Focos (Slide 4) ---
+            const bulbs = document.querySelectorAll('.bulb-interactive');
+            const totalDisplay = document.getElementById('total-display');
+            const binaryDisplay = document.getElementById('binary-display');
+
+            function updateBulbTotal() {
+                let total = 0;
+                let binaryString = '';
+
+                bulbs.forEach(bulb => {
+                    if (bulb.classList.contains('on')) {
+                        total += parseInt(bulb.dataset.value);
+                        binaryString += '1';
+                    } else {
+                        binaryString += '0';
+                    }
+                });
+
+                // Asegurarse de que los elementos existen antes de actualizarlos
+                // (Evita errores cuando la slide 4 no está activa, aunque el script corre una vez)
+                if (totalDisplay) {
+                    totalDisplay.textContent = total;
+                }
+                if (binaryDisplay) {
+                    binaryDisplay.textContent = binaryString;
+                }
+            }
+
+            bulbs.forEach(bulb => {
+                bulb.addEventListener('click', () => {
+                    bulb.classList.toggle('on');
+                    updateBulbTotal();
+                });
+            });
+
+            // Llama a la función al cargar la página para setear el estado inicial
+            // Esto es importante si la slide 4 es la primera en mostrarse
+            // o para asegurar que los valores por defecto (1101) se calculen.
+            if(bulbs.length > 0) {
+                 updateBulbTotal();
+            }
+            // --- Fin Logica de Focos ---
+
+            // Inicializa la presentación
+            showSlide(0);
+        });
+    </script>
+
+</body>
+</html>
